@@ -14,3 +14,9 @@ jobs:
         run: docker compose up -d
       - name: Process status
         run: docker compose ps -a
+      - name: Test ui
+        run: |
+          docker exec -it search_engine-crawler-ui-1 sh
+          cd ..
+          python3 -m unittest discover -s tests/
+        
