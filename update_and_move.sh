@@ -12,9 +12,9 @@ cd ..
 
 # Перемещение файлов
 echo "Перемещение файлов..."
-mv submodules_updates/Dockerfile search_engine_crawler/Dockerfile
-mv submodules_updates/Dockerfile search_engine_ui/Dockerfile
-mv submodules_updates/index.html search_engine_ui/ui/templates/index.html
+mv submodules_updates/search_engine_crawler/Dockerfile search_engine_crawler/Dockerfile
+mv submodules_updates/search_engine_ui/Dockerfile search_engine_ui/Dockerfile
+mv submodules_updates/search_engine_ui/index.html search_engine_ui/ui/templates/index.html
 
 # Проверяем успешность перемещения
 if [ $? -eq 0 ]; then
