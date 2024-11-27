@@ -8,9 +8,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: List
-        run: ls -la 
-      # - name: Run docker compose
-      #   run: docker compose up -d
-      # - name: Process status
-      #   run: docker compose ps -a
+      - name: Run init script
+        run: ./update_and_move.sh
+      - name: Run docker compose
+        run: docker compose up -d
+      - name: Process status
+        run: docker compose ps -a
