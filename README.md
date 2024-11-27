@@ -6,11 +6,8 @@
 
 ## Как запустить проект
 ### Локальная работа с приложением
-Для теста приложения на локальном компьютере выполните команды:
+Требуется выполнить скрипт инициализации:
 ```
-git submodule update \
-mv Dockerfile-cralwer search_engine_crawler/Dockerfile \
-mv Dockerfile-ui search_engine_ui/Dockerfile \
-mv index.html search_engine_ui/ui/templates/index.html
+./update_and_move.sh
 ```
-И используйте **compose.yaml**.
+И использовать **compose.yaml**.
