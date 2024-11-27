@@ -1,8 +1,14 @@
-name: Demo Workflow
+name: Test Crawler
 on: workflow_dispatch
 jobs:
-  print: 
+  test: 
     runs-on: ubuntu-latest
     steps:
-      - name: Print to console
-        run: echo Hello GH!
+      - name: Get repo code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run docker compose
+        run: docker compose up -d
+      - name: Process status
+        run: docker compose ps -a
