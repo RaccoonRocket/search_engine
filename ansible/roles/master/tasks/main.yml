@@ -1,0 +1,73 @@
+---
+# Configure Docker
+- name: Replace Docker daemon.json configuration
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+        "exec-opts": ["native.cgroupdriver=systemd"],
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "100m"
+        },
+        "storage-driver": "overlay2"
+      }
+
+- name: Reload systemd configuration
+  ansible.builtin.command:
+    cmd: systemctl daemon-reload
+
+- name: Restart Docker service
+  ansible.builtin.service:
+    name: docker
+    state: restarted
+
+#  Update Kubeadm Environment Variable
+- name: Update Kubeadm Environment Variable
+  ansible.builtin.command:
+    cmd: sudo sed -i -e '/^\[Service\]/a Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"' /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+- name: Reload systemd configuration
+  ansible.builtin.command:
+    cmd: systemctl daemon-reload
+
+- name: Restart kubelet service
+  ansible.builtin.service:
+    name: kubelet
+    state: restarted
+
+# Pull Kubernetes Container Images
+- name: Pull Kubernetes container images
+  ansible.builtin.command:
+    cmd: sudo kubeadm config images pull
+
+# Initialize Kubernetes Control Plane
+- name: Initialize Kubernetes control plane
+  ansible.builtin.command:
+    cmd: kubeadm init --pod-network-cidr=10.244.0.0/16
+    creates: /tmp/kubeadm_output
+  register: kubeadm_init_output
+  become: true
+  changed_when: false
+
+# Store the initialization output
+- name: Store Kubernetes initialization output to file
+  copy:
+    content: "{{ kubeadm_init_output.stdout }}"
+    dest: /tmp/kubeadm_output
+  become: true
+  delegate_to: localhost
+
+# Generate the Join Token
+- name: Generate the Join Command
+  ansible.builtin.shell: cat /tmp/kubeadm_output | tail -n 2 | sed ':a;N;$!ba;s/\\\n\s*/ /g' > /tmp/join-command
+  delegate_to: localhost
+
+# Make the join-command file executable
+- name: Set permissions for the Join Executable
+  file:
+    path: /tmp/join-command
+    state: file
+    mode: '0755'
+  delegate_to: localhost
+

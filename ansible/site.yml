@@ -1,0 +1,15 @@
+---
+- name: Configure Kubernetes Master and Network
+  hosts: master
+  become: true
+  roles:
+    - common
+    - master
+    - network
+
+- name: Configure Kubernetes Worker
+  hosts: worker
+  become: true
+  roles:
+    - common
+    - worker
