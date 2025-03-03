@@ -1,8 +1,20 @@
 ---
+- name: Update System-Wide Profile for Kubernetes
+  ansible.builtin.copy:
+    dest: /etc/profile.d/kubernetes.sh
+    content: |
+      export KUBECONFIG=/etc/kubernetes/admin.conf
+  
+- name: Set permissions for Kubernetes Admin
+  file:
+    path: /etc/kubernetes/admin.conf
+    state: file
+    mode: '0755'
+
 # tasks file for kubernetes_network
 - name: Install Flannel network plugin
-  ansible.builtin.shell: su - $ANSIBLE_USER -c "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+  ansible.builtin.shell: su - {{ ansible_user }} -c "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
 
 - name: Taint master node to prevent workload scheduling
-  ansible.builtin.shell: su - $ANSIBLE_USER -c "kubectl taint nodes --all node-role.kubernetes.io/control-plane-"
+  ansible.builtin.shell: su - {{ ansible_user }} -c "kubectl taint nodes --all node-role.kubernetes.io/control-plane-"
 
