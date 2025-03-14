@@ -6,7 +6,7 @@ metadata:
   labels:
     app: crawler
     component: mongodb-exporter
-  namespace: search-engine
+  namespace: monitoring
 spec:
   ports:
   - port: 9216
