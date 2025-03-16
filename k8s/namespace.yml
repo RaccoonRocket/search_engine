@@ -4,11 +4,6 @@ kind: Namespace
 metadata:
   name: search-engine
 ---
-apiVersion: apps/v1beta1
-kind: Namespace
-metadata:
-  name: search-engine
----
 apiVersion: v1
 kind: Namespace
 metadata:
