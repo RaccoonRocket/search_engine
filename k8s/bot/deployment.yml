@@ -21,7 +21,7 @@ spec:
         component: bot
     spec:
       containers:
-      - image: socutjam/search_engine-crawler:1.0
+      - image: scoutjam/search_engine-crawler:1.0
         name: bot
         env:
         - name: MONGO
