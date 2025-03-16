@@ -5,7 +5,7 @@ metadata:
   name: rabbitmq
   labels:
     component: rabbitmq
-  namespace: search-engine
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
