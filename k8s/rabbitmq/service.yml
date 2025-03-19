@@ -8,8 +8,23 @@ metadata:
 spec:
   type: ClusterIP
   ports:
+    - port: 4369
+      protocol: TCP
+      targetPort: 4369
+    - port: 5671
+      protocol: TCP
+      targetPort: 5671
     - port: 5672
       protocol: TCP
       targetPort: 5672
+    - port: 15691
+      protocol: TCP
+      targetPort: 15691
+    - port: 15692
+      protocol: TCP
+      targetPort: 15692
+    - port: 25672
+      protocol: TCP
+      targetPort: 25672
   selector:
     component: rabbitmq

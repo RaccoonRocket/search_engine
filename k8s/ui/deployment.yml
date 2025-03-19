@@ -30,3 +30,5 @@ spec:
           value: "27017"
         - name: FLASK_APP
           value: ui.py
+        ports:
+          - containerPort: 8000

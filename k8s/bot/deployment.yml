@@ -40,3 +40,5 @@ spec:
           value: "60"
         - name: EXCLUDE_URLS
           value: .*github.com
+        ports: 
+          - containerPort: 8000
